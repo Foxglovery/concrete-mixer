@@ -1,0 +1,129 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F5F5DC;
+  font-family: 'Crimson Text', serif;
+}
+
+/* Medieval-themed scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5DC;
+  border: 1px solid #8B4513;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8B4513;
+  border: 2px solid #F5F5DC;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A0522D;
+}
+
+/* Medieval-themed selection */
+::selection {
+  background: #8B4513;
+  color: #F5F5DC;
+}
+
+/* Medieval-themed focus outline */
+:focus {
+  outline: 2px solid #8B4513;
+  outline-offset: 2px;
+}
+
+/* Medieval-themed links */
+a {
+  color: #8B4513;
+  text-decoration: none;
+  border-bottom: 1px solid #8B4513;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #A0522D;
+  border-bottom: 2px solid #A0522D;
+}
+
+/* Medieval-themed buttons */
+button {
+  font-family: 'Crimson Text', serif;
+  letter-spacing: 0.5px;
+}
+
+/* Medieval-themed inputs */
+input, textarea, select {
+  font-family: 'Crimson Text', serif;
+  background-color: rgba(245, 245, 220, 0.9);
+  border: 1px solid #8B4513;
+}
+
+input:focus, textarea:focus, select:focus {
+  background-color: #F5F5DC;
+  border: 2px solid #8B4513;
+}
+
+/* Medieval-themed headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'MedievalSharp', cursive;
+  color: #2F4F4F;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Medieval-themed cards */
+.MuiCard-root {
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Medieval-themed dialogs */
+.MuiDialog-paper {
+  background-color: #F5F5DC;
+  border: 2px solid #8B4513;
+}
+
+/* Medieval-themed tooltips */
+.MuiTooltip-tooltip {
+  background-color: #8B4513;
+  font-family: 'Crimson Text', serif;
+}
+
+/* Medieval-themed chips */
+.MuiChip-root {
+  font-family: 'Crimson Text', serif;
+  border: 1px solid #8B4513;
+}
+
+/* Medieval-themed dividers */
+.MuiDivider-root {
+  background-color: #8B4513;
+}
+
+/* Medieval-themed list items */
+.MuiListItem-root {
+  font-family: 'Crimson Text', serif;
+}
+
+/* Medieval-themed menu items */
+.MuiMenuItem-root {
+  font-family: 'Crimson Text', serif;
+}
+
+/* Medieval-themed tabs */
+.MuiTab-root {
+  font-family: 'Crimson Text', serif;
+}
+
+/* Medieval-themed form labels */
+.MuiFormLabel-root {
+  font-family: 'Crimson Text', serif;
+}
+
+/* Medieval-themed helper text */
+.MuiFormHelperText-root {
+  font-family: 'Crimson Text', serif;
+} 
