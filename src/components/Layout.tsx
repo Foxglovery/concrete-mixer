@@ -26,22 +26,25 @@ import styled from 'styled-components';
 const drawerWidth = 240;
 
 const StyledAppBar = styled(AppBar)`
-  background: linear-gradient(to right, #8B4513, #A0522D);
-  border-bottom: 2px solid #654321;
+  background: linear-gradient(to right, #2C1810, #8B4513);
+  border-bottom: 2px solid #E8D5B5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 `;
 
 const StyledDrawer = styled(Drawer)`
   .MuiDrawer-paper {
-    background: #F5F5DC;
-    border-right: 2px solid #8B4513;
+    background: #2C1810;
+    border-right: 2px solid #E8D5B5;
     width: ${drawerWidth}px;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.3);
   }
 `;
 
 const Logo = styled(Typography)`
   font-family: 'MedievalSharp', cursive;
-  color: #F5F5DC;
+  color: #FFD700;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
 `;
 
 const menuItems = [
@@ -76,18 +79,30 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             onClick={() => navigate(item.path)}
             selected={location.pathname === item.path}
             sx={{
+              color: '#E8D5B5',
               '&.Mui-selected': {
-                backgroundColor: theme.palette.primary.light,
+                backgroundColor: 'rgba(139, 69, 19, 0.3)',
+                color: '#FFD700',
                 '&:hover': {
-                  backgroundColor: theme.palette.primary.main,
+                  backgroundColor: 'rgba(139, 69, 19, 0.5)',
                 },
+              },
+              '&:hover': {
+                backgroundColor: 'rgba(139, 69, 19, 0.2)',
+                color: '#FFD700',
               },
             }}
           >
-            <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+            <ListItemIcon sx={{ color: 'inherit' }}>
               {item.icon}
             </ListItemIcon>
-            <ListItemText primary={item.text} />
+            <ListItemText 
+              primary={item.text}
+              primaryTypographyProps={{
+                fontFamily: 'Crimson Text, serif',
+                fontSize: '1.1rem',
+              }}
+            />
           </ListItem>
         ))}
       </List>
@@ -103,12 +118,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: 'none' }, color: '#E8D5B5' }}
           >
             <MenuIcon />
           </IconButton>
           <Logo variant="h6" noWrap>
-            Medieval Concrete Studio
+            Waterdeep Artisan's Workshop
           </Logo>
         </Toolbar>
       </StyledAppBar>
@@ -146,6 +161,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           mt: 8,
+          backgroundColor: '#2C1810',
+          minHeight: '100vh',
         }}
       >
         {children}

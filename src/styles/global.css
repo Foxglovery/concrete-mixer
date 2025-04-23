@@ -1,129 +1,154 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #F5F5DC;
+  background: linear-gradient(135deg, #2C1810 0%, #1A0F0A 100%);
   font-family: 'Crimson Text', serif;
+  color: #E8D5B5;
 }
 
-/* Medieval-themed scrollbar */
+/* Elegant scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F5DC;
+  background: #2C1810;
   border: 1px solid #8B4513;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #8B4513;
-  border: 2px solid #F5F5DC;
-  border-radius: 0;
+  border: 1px solid #E8D5B5;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #A0522D;
 }
 
-/* Medieval-themed selection */
+/* Elegant selection */
 ::selection {
   background: #8B4513;
-  color: #F5F5DC;
+  color: #E8D5B5;
 }
 
-/* Medieval-themed focus outline */
+/* Elegant focus outline */
 :focus {
-  outline: 2px solid #8B4513;
+  outline: 2px solid #E8D5B5;
   outline-offset: 2px;
 }
 
-/* Medieval-themed links */
+/* Elegant links */
 a {
-  color: #8B4513;
+  color: #E8D5B5;
   text-decoration: none;
-  border-bottom: 1px solid #8B4513;
+  border-bottom: 1px solid #E8D5B5;
   transition: all 0.3s ease;
 }
 
 a:hover {
-  color: #A0522D;
-  border-bottom: 2px solid #A0522D;
+  color: #FFD700;
+  border-bottom: 2px solid #FFD700;
 }
 
-/* Medieval-themed buttons */
+/* Elegant buttons */
 button {
   font-family: 'Crimson Text', serif;
   letter-spacing: 0.5px;
+  background-color: #8B4513;
+  color: #E8D5B5;
+  border: 1px solid #E8D5B5;
+  transition: all 0.3s ease;
 }
 
-/* Medieval-themed inputs */
+button:hover {
+  background-color: #A0522D;
+  color: #FFD700;
+  border-color: #FFD700;
+}
+
+/* Elegant inputs */
 input, textarea, select {
   font-family: 'Crimson Text', serif;
-  background-color: rgba(245, 245, 220, 0.9);
-  border: 1px solid #8B4513;
+  background-color: rgba(44, 24, 16, 0.8);
+  border: 1px solid #E8D5B5;
+  color: #E8D5B5;
 }
 
 input:focus, textarea:focus, select:focus {
-  background-color: #F5F5DC;
-  border: 2px solid #8B4513;
+  background-color: #2C1810;
+  border: 2px solid #FFD700;
+  color: #FFD700;
 }
 
-/* Medieval-themed headings */
+/* Elegant headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'MedievalSharp', cursive;
-  color: #2F4F4F;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  color: #FFD700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Medieval-themed cards */
+/* Elegant cards */
 .MuiCard-root {
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+  background-color: #2C1810;
+  border: 1px solid #E8D5B5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Medieval-themed dialogs */
+/* Elegant dialogs */
 .MuiDialog-paper {
-  background-color: #F5F5DC;
-  border: 2px solid #8B4513;
+  background-color: #2C1810;
+  border: 2px solid #E8D5B5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Medieval-themed tooltips */
+/* Elegant tooltips */
 .MuiTooltip-tooltip {
-  background-color: #8B4513;
+  background-color: #2C1810;
+  color: #E8D5B5;
+  border: 1px solid #E8D5B5;
   font-family: 'Crimson Text', serif;
 }
 
-/* Medieval-themed chips */
+/* Elegant chips */
 .MuiChip-root {
   font-family: 'Crimson Text', serif;
-  border: 1px solid #8B4513;
-}
-
-/* Medieval-themed dividers */
-.MuiDivider-root {
   background-color: #8B4513;
+  color: #E8D5B5;
+  border: 1px solid #E8D5B5;
 }
 
-/* Medieval-themed list items */
+/* Elegant dividers */
+.MuiDivider-root {
+  background-color: #E8D5B5;
+}
+
+/* Elegant list items */
 .MuiListItem-root {
   font-family: 'Crimson Text', serif;
+  color: #E8D5B5;
 }
 
-/* Medieval-themed menu items */
+/* Elegant menu items */
 .MuiMenuItem-root {
   font-family: 'Crimson Text', serif;
+  color: #E8D5B5;
 }
 
-/* Medieval-themed tabs */
+/* Elegant tabs */
 .MuiTab-root {
   font-family: 'Crimson Text', serif;
+  color: #E8D5B5;
 }
 
-/* Medieval-themed form labels */
+/* Elegant form labels */
 .MuiFormLabel-root {
   font-family: 'Crimson Text', serif;
+  color: #E8D5B5;
 }
 
-/* Medieval-themed helper text */
+/* Elegant helper text */
 .MuiFormHelperText-root {
   font-family: 'Crimson Text', serif;
+  color: #E8D5B5;
 } 
