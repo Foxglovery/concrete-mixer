@@ -13,6 +13,7 @@ import {
   Slider,
   Card,
   CardContent,
+  Divider,
 } from '@mui/material';
 import styled from 'styled-components';
 
@@ -37,6 +38,12 @@ const ColorPreview = styled.div<{ color: string }>`
   margin: 10px 0;
 `;
 
+const InventoryCard = styled(Card)`
+  background: rgba(210, 180, 140, 0.9);
+  border: 2px solid #8B4513;
+  margin-top: 2rem;
+`;
+
 interface MaterialMix {
   cement: number;
   sand: number;
@@ -44,6 +51,14 @@ interface MaterialMix {
   water: number;
   additives: number;
   color: string;
+}
+
+interface Inventory {
+  cement: number;
+  sand: number;
+  gravel: number;
+  water: number;
+  additives: number;
 }
 
 const MaterialCalculator = () => {
@@ -60,6 +75,13 @@ const MaterialCalculator = () => {
     water: 0,
     additives: 0,
     color: '#808080', // Default gray color
+  });
+  const [inventory, setInventory] = useState<Inventory>({
+    cement: 0,
+    sand: 0,
+    gravel: 0,
+    water: 0,
+    additives: 0,
   });
 
   const projectTypes = [
@@ -81,6 +103,15 @@ const MaterialCalculator = () => {
       color: materialMix.color,
     };
     setMaterialMix(mix);
+  };
+
+  const getMaterialStatus = (required: number, available: number) => {
+    const difference = available - required;
+    if (difference >= 0) {
+      return { status: 'sufficient', message: `You have ${difference.toFixed(2)} kg/L extra` };
+    } else {
+      return { status: 'insufficient', message: `You need ${Math.abs(difference).toFixed(2)} kg/L more` };
+    }
   };
 
   return (
@@ -186,6 +217,86 @@ const MaterialCalculator = () => {
                 <ColorPreview color={materialMix.color} />
               </CardContent>
             </ResultCard>
+
+            <InventoryCard>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Your Inventory
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Cement Available (kg)"
+                      type="number"
+                      value={inventory.cement}
+                      onChange={(e) => setInventory({ ...inventory, cement: Number(e.target.value) })}
+                    />
+                    {materialMix.cement > 0 && (
+                      <Typography variant="body2" color={getMaterialStatus(materialMix.cement, inventory.cement).status === 'sufficient' ? 'success.main' : 'error.main'}>
+                        {getMaterialStatus(materialMix.cement, inventory.cement).message}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Sand Available (kg)"
+                      type="number"
+                      value={inventory.sand}
+                      onChange={(e) => setInventory({ ...inventory, sand: Number(e.target.value) })}
+                    />
+                    {materialMix.sand > 0 && (
+                      <Typography variant="body2" color={getMaterialStatus(materialMix.sand, inventory.sand).status === 'sufficient' ? 'success.main' : 'error.main'}>
+                        {getMaterialStatus(materialMix.sand, inventory.sand).message}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Gravel Available (kg)"
+                      type="number"
+                      value={inventory.gravel}
+                      onChange={(e) => setInventory({ ...inventory, gravel: Number(e.target.value) })}
+                    />
+                    {materialMix.gravel > 0 && (
+                      <Typography variant="body2" color={getMaterialStatus(materialMix.gravel, inventory.gravel).status === 'sufficient' ? 'success.main' : 'error.main'}>
+                        {getMaterialStatus(materialMix.gravel, inventory.gravel).message}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Water Available (L)"
+                      type="number"
+                      value={inventory.water}
+                      onChange={(e) => setInventory({ ...inventory, water: Number(e.target.value) })}
+                    />
+                    {materialMix.water > 0 && (
+                      <Typography variant="body2" color={getMaterialStatus(materialMix.water, inventory.water).status === 'sufficient' ? 'success.main' : 'error.main'}>
+                        {getMaterialStatus(materialMix.water, inventory.water).message}
+                      </Typography>
+                    )}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Additives Available (kg)"
+                      type="number"
+                      value={inventory.additives}
+                      onChange={(e) => setInventory({ ...inventory, additives: Number(e.target.value) })}
+                    />
+                    {materialMix.additives > 0 && (
+                      <Typography variant="body2" color={getMaterialStatus(materialMix.additives, inventory.additives).status === 'sufficient' ? 'success.main' : 'error.main'}>
+                        {getMaterialStatus(materialMix.additives, inventory.additives).message}
+                      </Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </InventoryCard>
           </Grid>
         </Grid>
       </StyledPaper>
