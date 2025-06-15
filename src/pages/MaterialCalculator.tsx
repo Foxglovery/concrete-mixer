@@ -61,6 +61,14 @@ interface Inventory {
   additives: number;
 }
 
+interface MaterialPrices {
+  cement: number;
+  sand: number;
+  gravel: number;
+  water: number;
+  additives: number;
+}
+
 const MaterialCalculator = () => {
   const [projectType, setProjectType] = useState('');
   const [dimensions, setDimensions] = useState({
@@ -77,6 +85,13 @@ const MaterialCalculator = () => {
     color: '#808080', // Default gray color
   });
   const [inventory, setInventory] = useState<Inventory>({
+    cement: 0,
+    sand: 0,
+    gravel: 0,
+    water: 0,
+    additives: 0,
+  });
+  const [prices, setPrices] = useState<MaterialPrices>({
     cement: 0,
     sand: 0,
     gravel: 0,
@@ -112,6 +127,16 @@ const MaterialCalculator = () => {
     } else {
       return { status: 'insufficient', message: `You need ${Math.abs(difference).toFixed(2)} kg/L more` };
     }
+  };
+
+  const calculateTotalCost = () => {
+    return (
+      materialMix.cement * prices.cement +
+      materialMix.sand * prices.sand +
+      materialMix.gravel * prices.gravel +
+      materialMix.water * prices.water +
+      materialMix.additives * prices.additives
+    );
   };
 
   return (
@@ -297,6 +322,99 @@ const MaterialCalculator = () => {
                 </Grid>
               </CardContent>
             </InventoryCard>
+
+            <ResultCard>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Cost Estimation
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Cement Price (per kg)"
+                      type="number"
+                      value={prices.cement}
+                      onChange={(e) => setPrices({ ...prices, cement: Number(e.target.value) })}
+                      InputProps={{
+                        startAdornment: <Typography>$</Typography>,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Sand Price (per kg)"
+                      type="number"
+                      value={prices.sand}
+                      onChange={(e) => setPrices({ ...prices, sand: Number(e.target.value) })}
+                      InputProps={{
+                        startAdornment: <Typography>$</Typography>,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Gravel Price (per kg)"
+                      type="number"
+                      value={prices.gravel}
+                      onChange={(e) => setPrices({ ...prices, gravel: Number(e.target.value) })}
+                      InputProps={{
+                        startAdornment: <Typography>$</Typography>,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Water Price (per L)"
+                      type="number"
+                      value={prices.water}
+                      onChange={(e) => setPrices({ ...prices, water: Number(e.target.value) })}
+                      InputProps={{
+                        startAdornment: <Typography>$</Typography>,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Additives Price (per kg)"
+                      type="number"
+                      value={prices.additives}
+                      onChange={(e) => setPrices({ ...prices, additives: Number(e.target.value) })}
+                      InputProps={{
+                        startAdornment: <Typography>$</Typography>,
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Cost Breakdown
+                </Typography>
+                <Typography variant="body1">
+                  Cement: ${(materialMix.cement * prices.cement).toFixed(2)}
+                </Typography>
+                <Typography variant="body1">
+                  Sand: ${(materialMix.sand * prices.sand).toFixed(2)}
+                </Typography>
+                <Typography variant="body1">
+                  Gravel: ${(materialMix.gravel * prices.gravel).toFixed(2)}
+                </Typography>
+                <Typography variant="body1">
+                  Water: ${(materialMix.water * prices.water).toFixed(2)}
+                </Typography>
+                <Typography variant="body1">
+                  Additives: ${(materialMix.additives * prices.additives).toFixed(2)}
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" color="primary">
+                  Total Cost: ${calculateTotalCost().toFixed(2)}
+                </Typography>
+              </CardContent>
+            </ResultCard>
           </Grid>
         </Grid>
       </StyledPaper>
