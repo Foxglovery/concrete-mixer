@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -10,7 +10,6 @@ import {
   Grid,
   Paper,
   Button,
-  Slider,
   Card,
   CardContent,
   Divider,
@@ -18,6 +17,10 @@ import {
   List,
   ListItem,
   ListItemText,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import styled from 'styled-components';
 
@@ -46,6 +49,24 @@ const InventoryCard = styled(Card)`
   background: rgba(210, 180, 140, 0.9);
   border: 2px solid #8B4513;
   margin-top: 2rem;
+`;
+
+const ScrollingText = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 9999;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 interface MaterialMix {
@@ -118,6 +139,10 @@ const MaterialCalculator = () => {
     additives: 0,
   });
   const [selectedZone, setSelectedZone] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [scrollingText, setScrollingText] = useState('');
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const growingZones: GrowingZone[] = [
     {
@@ -213,6 +238,40 @@ const MaterialCalculator = () => {
       case 'hard': return 'error';
       default: return 'default';
     }
+  };
+
+  // Scrolling text animation
+  useEffect(() => {
+    if (isScrolling && scrollingText) {
+      const interval = setInterval(() => {
+        setScrollPosition(prev => {
+          const newPosition = prev - 2;
+          if (newPosition < -window.innerWidth - 1000) {
+            setIsScrolling(false);
+            setScrollPosition(0);
+            return 0;
+          }
+          return newPosition;
+        });
+      }, 50);
+
+      return () => clearInterval(interval);
+    }
+  }, [isScrolling, scrollingText]);
+
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleSubmitText = (text: string) => {
+    setScrollingText(text);
+    setIsScrolling(true);
+    setScrollPosition(window.innerWidth);
+    setIsDialogOpen(false);
   };
 
   const projectTypes = [
@@ -328,6 +387,16 @@ const MaterialCalculator = () => {
               sx={{ mt: 3 }}
             >
               Calculate Materials
+            </Button>
+
+            <Button
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              onClick={handleOpenDialog}
+              sx={{ mt: 2 }}
+            >
+              What's Going On?
             </Button>
           </Grid>
 
@@ -628,6 +697,53 @@ const MaterialCalculator = () => {
           </Grid>
         </Grid>
       </StyledPaper>
+
+      {/* Scrolling Text Overlay */}
+      {isScrolling && (
+        <ScrollingText>
+          <div style={{ transform: `translateX(${scrollPosition}px)` }}>
+            {scrollingText}
+          </div>
+        </ScrollingText>
+      )}
+
+      {/* Dialog for text input */}
+      <Dialog open={isDialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <DialogTitle>What's Going On?</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Tell us what's happening..."
+            type="text"
+            fullWidth
+            variant="outlined"
+            multiline
+            rows={3}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const target = e.target as HTMLInputElement;
+                handleSubmitText(target.value);
+              }
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button 
+            onClick={() => {
+              const input = document.querySelector('input[type="text"], textarea') as HTMLInputElement;
+              if (input) {
+                handleSubmitText(input.value);
+              }
+            }}
+            variant="contained"
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
