@@ -14,6 +14,10 @@ import {
   Card,
   CardContent,
   Divider,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
 } from '@mui/material';
 import styled from 'styled-components';
 
@@ -69,6 +73,21 @@ interface MaterialPrices {
   additives: number;
 }
 
+interface Plant {
+  name: string;
+  type: 'vegetable' | 'herb' | 'flower' | 'fruit';
+  plantingTime: string[];
+  harvestTime: string[];
+  difficulty: 'easy' | 'medium' | 'hard';
+}
+
+interface GrowingZone {
+  zone: string;
+  description: string;
+  avgTemp: string;
+  plants: Plant[];
+}
+
 const MaterialCalculator = () => {
   const [projectType, setProjectType] = useState('');
   const [dimensions, setDimensions] = useState({
@@ -82,7 +101,7 @@ const MaterialCalculator = () => {
     gravel: 0,
     water: 0,
     additives: 0,
-    color: '#808080', // Default gray color
+    color: '#808080',
   });
   const [inventory, setInventory] = useState<Inventory>({
     cement: 0,
@@ -98,6 +117,103 @@ const MaterialCalculator = () => {
     water: 0,
     additives: 0,
   });
+  const [selectedZone, setSelectedZone] = useState('');
+
+  const growingZones: GrowingZone[] = [
+    {
+      zone: 'Zone 3',
+      description: 'Cold climate, short growing season',
+      avgTemp: '-40°F to -30°F',
+      plants: [
+        { name: 'Kale', type: 'vegetable', plantingTime: ['Spring', 'Fall'], harvestTime: ['Summer', 'Winter'], difficulty: 'easy' },
+        { name: 'Spinach', type: 'vegetable', plantingTime: ['Spring', 'Fall'], harvestTime: ['Summer', 'Winter'], difficulty: 'easy' },
+        { name: 'Peas', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer'], difficulty: 'easy' },
+        { name: 'Radishes', type: 'vegetable', plantingTime: ['Spring', 'Fall'], harvestTime: ['Summer', 'Winter'], difficulty: 'easy' },
+      ]
+    },
+    {
+      zone: 'Zone 4',
+      description: 'Cold climate, moderate growing season',
+      avgTemp: '-30°F to -20°F',
+      plants: [
+        { name: 'Lettuce', type: 'vegetable', plantingTime: ['Spring', 'Fall'], harvestTime: ['Summer', 'Winter'], difficulty: 'easy' },
+        { name: 'Carrots', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'medium' },
+        { name: 'Beets', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'easy' },
+        { name: 'Chives', type: 'herb', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'easy' },
+      ]
+    },
+    {
+      zone: 'Zone 5',
+      description: 'Moderate climate, good growing season',
+      avgTemp: '-20°F to -10°F',
+      plants: [
+        { name: 'Tomatoes', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'medium' },
+        { name: 'Basil', type: 'herb', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'easy' },
+        { name: 'Zucchini', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'easy' },
+        { name: 'Marigolds', type: 'flower', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'easy' },
+      ]
+    },
+    {
+      zone: 'Zone 6',
+      description: 'Moderate climate, long growing season',
+      avgTemp: '-10°F to 0°F',
+      plants: [
+        { name: 'Bell Peppers', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'medium' },
+        { name: 'Cucumbers', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'medium' },
+        { name: 'Rosemary', type: 'herb', plantingTime: ['Spring'], harvestTime: ['Year-round'], difficulty: 'medium' },
+        { name: 'Strawberries', type: 'fruit', plantingTime: ['Spring'], harvestTime: ['Summer'], difficulty: 'medium' },
+      ]
+    },
+    {
+      zone: 'Zone 7',
+      description: 'Mild climate, very long growing season',
+      avgTemp: '0°F to 10°F',
+      plants: [
+        { name: 'Eggplant', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Summer', 'Fall'], difficulty: 'medium' },
+        { name: 'Oregano', type: 'herb', plantingTime: ['Spring'], harvestTime: ['Year-round'], difficulty: 'easy' },
+        { name: 'Lavender', type: 'herb', plantingTime: ['Spring'], harvestTime: ['Summer'], difficulty: 'medium' },
+        { name: 'Blueberries', type: 'fruit', plantingTime: ['Spring'], harvestTime: ['Summer'], difficulty: 'hard' },
+      ]
+    },
+    {
+      zone: 'Zone 8',
+      description: 'Warm climate, year-round growing',
+      avgTemp: '10°F to 20°F',
+      plants: [
+        { name: 'Sweet Potatoes', type: 'vegetable', plantingTime: ['Spring'], harvestTime: ['Fall'], difficulty: 'medium' },
+        { name: 'Thyme', type: 'herb', plantingTime: ['Spring'], harvestTime: ['Year-round'], difficulty: 'easy' },
+        { name: 'Citrus Trees', type: 'fruit', plantingTime: ['Spring'], harvestTime: ['Winter'], difficulty: 'hard' },
+        { name: 'Bougainvillea', type: 'flower', plantingTime: ['Spring'], harvestTime: ['Year-round'], difficulty: 'medium' },
+      ]
+    },
+  ];
+
+  const getCurrentSeason = () => {
+    const month = new Date().getMonth();
+    if (month >= 2 && month <= 4) return 'Spring';
+    if (month >= 5 && month <= 7) return 'Summer';
+    if (month >= 8 && month <= 10) return 'Fall';
+    return 'Winter';
+  };
+
+  const getPlantsForCurrentSeason = () => {
+    if (!selectedZone) return [];
+    const zone = growingZones.find(z => z.zone === selectedZone);
+    if (!zone) return [];
+    const currentSeason = getCurrentSeason();
+    return zone.plants.filter(plant => 
+      plant.plantingTime.includes(currentSeason) || plant.plantingTime.includes('Year-round')
+    );
+  };
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'easy': return 'success';
+      case 'medium': return 'warning';
+      case 'hard': return 'error';
+      default: return 'default';
+    }
+  };
 
   const projectTypes = [
     { value: 'planter', label: 'Garden Planter' },
@@ -413,6 +529,100 @@ const MaterialCalculator = () => {
                 <Typography variant="h6" color="primary">
                   Total Cost: ${calculateTotalCost().toFixed(2)}
                 </Typography>
+              </CardContent>
+            </ResultCard>
+
+            <ResultCard>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Growing Zone & Planting Guide
+                </Typography>
+                
+                <FormControl fullWidth sx={{ mb: 3 }}>
+                  <InputLabel>Select Your Growing Zone</InputLabel>
+                  <Select
+                    value={selectedZone}
+                    label="Select Your Growing Zone"
+                    onChange={(e) => setSelectedZone(e.target.value)}
+                  >
+                    {growingZones.map((zone) => (
+                      <MenuItem key={zone.zone} value={zone.zone}>
+                        {zone.zone} - {zone.description}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                {selectedZone && (
+                  <>
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="h6" gutterBottom>
+                        Zone Information
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 1 }}>
+                        <strong>Zone:</strong> {selectedZone}
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 1 }}>
+                        <strong>Description:</strong> {growingZones.find(z => z.zone === selectedZone)?.description}
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Average Temperature Range:</strong> {growingZones.find(z => z.zone === selectedZone)?.avgTemp}
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Current Season:</strong> {getCurrentSeason()}
+                      </Typography>
+                    </Box>
+
+                    <Divider sx={{ my: 2 }} />
+                    
+                    <Typography variant="h6" gutterBottom>
+                      Plants to Plant Right Now ({getCurrentSeason()})
+                    </Typography>
+                    
+                    {getPlantsForCurrentSeason().length > 0 ? (
+                      <List>
+                        {getPlantsForCurrentSeason().map((plant, index) => (
+                          <ListItem key={index} sx={{ border: '1px solid #ddd', borderRadius: 1, mb: 1 }}>
+                            <ListItemText
+                              primary={
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                                    {plant.name}
+                                  </Typography>
+                                  <Chip 
+                                    label={plant.type} 
+                                    size="small" 
+                                    color="primary" 
+                                    variant="outlined"
+                                  />
+                                  <Chip 
+                                    label={plant.difficulty} 
+                                    size="small" 
+                                    color={getDifficultyColor(plant.difficulty) as any}
+                                  />
+                                </Box>
+                              }
+                              secondary={
+                                <Box>
+                                  <Typography variant="body2" color="text.secondary">
+                                    <strong>Planting Time:</strong> {plant.plantingTime.join(', ')}
+                                  </Typography>
+                                  <Typography variant="body2" color="text.secondary">
+                                    <strong>Harvest Time:</strong> {plant.harvestTime.join(', ')}
+                                  </Typography>
+                                </Box>
+                              }
+                            />
+                          </ListItem>
+                        ))}
+                      </List>
+                    ) : (
+                      <Typography variant="body1" color="text.secondary">
+                        No plants are recommended for planting in {getCurrentSeason()} in {selectedZone}.
+                      </Typography>
+                    )}
+                  </>
+                )}
               </CardContent>
             </ResultCard>
           </Grid>
