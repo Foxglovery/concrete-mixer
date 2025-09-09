@@ -63,6 +63,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const theme = useTheme();
 
   const handleDrawerToggle = () => {

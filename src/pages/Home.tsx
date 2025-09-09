@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import FileButton from '../components/FileButton';
 
 const StyledCard = styled(motion(Card))`
   height: 100%;
@@ -68,6 +69,9 @@ const Home = () => {
         <WelcomeText variant="h2">
           Welcome to the Medieval Concrete Studio
         </WelcomeText>
+        <div>
+          <FileButton />
+        </div>
         <Typography
           variant="h5"
           sx={{ textAlign: 'center', mb: 4, color: '#556B2F' }}
